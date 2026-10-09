@@ -1,6 +1,7 @@
 import { LogIn, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
+import { Button } from '../../library/Buttons/Button/Button'
 import { NAV_LINKS, ROUTES } from '../../siteConfig'
 import { Logo } from '../ui/Logo'
 import { buttonClasses } from '../ui/styles'
@@ -39,21 +40,24 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <div className="hidden lg:block">
+            {/* TODO: zamień na przycisk, który jest linkiem */}
             <Link to={ROUTES.login} className={buttonClasses('outline', '', 'sm')}>
               <LogIn size={16} aria-hidden />
               Zaloguj się
             </Link>
           </div>
-          <button
-            type="button"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
-            className="inline-flex size-11 items-center justify-center rounded-full text-brand-text-primary transition-colors hover:bg-brand-text-primary/5 lg:hidden"
-          >
-            {menuOpen ? <X size={22} aria-hidden /> : <Menu size={22} aria-hidden />}
-          </button>
+          {/* TODO: dodaj do Button props type ("button"), aria-expanded ({menuOpen}), aria-controls ("mobile-menu"),
+              aria-label (menuOpen ? 'Zamknij menu' : 'Otwórz menu') i className ("lg:hidden"), wtedy wrapper nie będzie potrzebny */}
+          <div className="lg:hidden">
+            <Button
+              startIcon={menuOpen ? <X size={22} aria-hidden /> : <Menu size={22} aria-hidden />}
+              color="brand-text-primary"
+              colorHover="brand-text-primary"
+              colorBackgroundHover="brand-text-primary"
+              colorBackgroundHoverCover={5}
+              onClick={() => setMenuOpen((open) => !open)}
+            />
+          </div>
         </div>
       </div>
 
@@ -73,6 +77,7 @@ export function SiteHeader() {
                 </li>
               ))}
             </ul>
+            {/* TODO: zamień na przycisk, który jest linkiem */}
             <Link to={ROUTES.login} className={buttonClasses('primary', 'mt-3 w-full')}>
               <LogIn size={16} aria-hidden />
               Zaloguj się

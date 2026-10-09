@@ -3,9 +3,10 @@ import { useState, type FormEvent } from 'react'
 import { formatNumber, parseNumber } from '../../../lib/format'
 import { DAYS, totalSets, totalVolume } from '../../../lib/training'
 import type { Category, DayKey, Exercise, PlanEntry } from '../../../lib/types'
+import { Button } from '../../../library/Buttons/Button/Button'
 import { Badge } from '../../ui/Badge'
 import { Field } from '../../ui/Field'
-import { buttonClasses, fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
 
 type PlanPanelProps = {
   plan: PlanEntry[]
@@ -200,10 +201,15 @@ function AddEntryForm({ day, dayLabel, exercises, categories, onAdd }: AddEntryF
         {numberField('entry-weight', 'Ciężar (kg)', weight, setWeight, 'weight', '0')}
       </div>
       <p className="-mt-2 text-xs text-brand-text-secondary">Puste pole ciężaru oznacza ćwiczenie z masą ciała.</p>
-      <button type="submit" className={buttonClasses('secondary', 'w-full sm:w-fit')}>
-        <Plus size={16} aria-hidden />
-        Dodaj do planu
-      </button>
+      {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
+      <div className="flex flex-col sm:items-start">
+        <Button
+          label="Dodaj do planu"
+          startIcon={<Plus size={16} aria-hidden />}
+          color="brand-text-button"
+          colorBackground="brand-secondary"
+        />
+      </div>
     </form>
   )
 }

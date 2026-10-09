@@ -3,10 +3,11 @@ import { useState, type FormEvent } from 'react'
 import { formatNumber, measureLabel, parseNumber } from '../../../lib/format'
 import { createId } from '../../../lib/id'
 import type { Category, Measure, Product } from '../../../lib/types'
+import { Button } from '../../../library/Buttons/Button/Button'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
-import { buttonClasses, fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
 import { CategoryForm } from '../CategoryForm'
 
 type ProductsPanelProps = {
@@ -190,10 +191,15 @@ function ProductForm({ categories, onAdd }: { categories: Category[]; onAdd: (pr
         </div>
       </fieldset>
 
-      <button type="submit" className={buttonClasses('secondary', 'w-full sm:w-fit')}>
-        <PackagePlus size={16} aria-hidden />
-        Dodaj produkt
-      </button>
+      {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
+      <div className="flex flex-col sm:items-start">
+        <Button
+          label="Dodaj produkt"
+          startIcon={<PackagePlus size={16} aria-hidden />}
+          color="brand-text-button"
+          colorBackground="brand-secondary"
+        />
+      </div>
     </form>
   )
 }

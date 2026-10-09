@@ -3,10 +3,11 @@ import { useState, type FormEvent } from 'react'
 import { accentSoft } from '../../../lib/accents'
 import { createId } from '../../../lib/id'
 import type { Category, Exercise } from '../../../lib/types'
+import { Button } from '../../../library/Buttons/Button/Button'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
-import { buttonClasses, fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
 import { CategoryForm } from '../CategoryForm'
 
 type ExercisesPanelProps = {
@@ -119,10 +120,15 @@ function ExerciseForm({ exercises, categories, onAdd }: ExerciseFormProps) {
           </select>
         </Field>
       </div>
-      <button type="submit" className={buttonClasses('secondary', 'w-full sm:w-fit')}>
-        <Plus size={16} aria-hidden />
-        Dodaj ćwiczenie
-      </button>
+      {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
+      <div className="flex flex-col sm:items-start">
+        <Button
+          label="Dodaj ćwiczenie"
+          startIcon={<Plus size={16} aria-hidden />}
+          color="brand-text-button"
+          colorBackground="brand-secondary"
+        />
+      </div>
     </form>
   )
 }

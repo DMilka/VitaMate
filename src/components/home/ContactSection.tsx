@@ -1,9 +1,10 @@
 import { Info, Mail, MapPin, Phone, Send } from 'lucide-react'
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { CONTACT, CONTACT_TOPICS, SECTION_IDS, SOCIAL_LINKS } from '../../siteConfig'
+import { Button } from '../../library/Buttons/Button/Button'
 import { Field } from '../ui/Field'
 import { SocialIcon } from '../ui/SocialIcon'
-import { buttonClasses, fieldA11y, inputClasses, selectClasses, textareaClasses } from '../ui/styles'
+import { fieldA11y, inputClasses, selectClasses, textareaClasses } from '../ui/styles'
 
 export function ContactSection() {
   return (
@@ -50,6 +51,7 @@ export function ContactSection() {
             <ul className="mt-3 flex gap-2">
               {SOCIAL_LINKS.map((social) => (
                 <li key={social.label}>
+                  {/* TODO: zamień na przycisk, który jest linkiem */}
                   <a
                     href={social.href}
                     aria-label={`VitaMate: ${social.label}`}
@@ -210,10 +212,15 @@ function ContactForm() {
         </p>
       )}
 
-      <button type="submit" className={buttonClasses('primary', 'w-full sm:w-fit')}>
-        <Send size={16} aria-hidden />
-        Wyślij
-      </button>
+      {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
+      <div className="flex flex-col sm:items-start">
+        <Button
+          label="Wyślij"
+          startIcon={<Send size={16} aria-hidden />}
+          color="brand-text-button"
+          colorBackground="brand-primary"
+        />
+      </div>
     </form>
   )
 }

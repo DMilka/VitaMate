@@ -8,4 +8,3 @@ export function SocialIcon({ icon, size = 18 }: { icon: SimpleIcon; size?: numbe
     </svg>
   )
 }
-w

@@ -3,9 +3,10 @@ import { useState, type FormEvent } from 'react'
 import { ACCENTS, accentNames, accentSoft, accentSolid } from '../../lib/accents'
 import { createId } from '../../lib/id'
 import type { Accent, Category } from '../../lib/types'
+import { Button } from '../../library/Buttons/Button/Button'
 import { Badge } from '../ui/Badge'
 import { Field } from '../ui/Field'
-import { buttonClasses, fieldA11y, inputClasses } from '../ui/styles'
+import { fieldA11y, inputClasses } from '../ui/styles'
 
 type CategoryFormProps = {
   idPrefix: string
@@ -75,10 +76,15 @@ export function CategoryForm({ idPrefix, placeholder, existing, onAdd }: Categor
         </div>
       </fieldset>
 
-      <button type="submit" className={buttonClasses('secondary', 'w-full sm:w-fit')}>
-        <Plus size={16} aria-hidden />
-        Dodaj kategorię
-      </button>
+      {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
+      <div className="flex flex-col sm:items-start">
+        <Button
+          label="Dodaj kategorię"
+          startIcon={<Plus size={16} aria-hidden />}
+          color="brand-text-button"
+          colorBackground="brand-secondary"
+        />
+      </div>
     </form>
   )
 }

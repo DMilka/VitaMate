@@ -18,6 +18,7 @@ export function PlaceholderPage({ title, description }: { title: string; descrip
           </span>
           <h1 className="mt-5 text-3xl font-semibold tracking-tight">{title}</h1>
           <p className="mt-3 text-brand-text-secondary">{description}</p>
+          {/* TODO: zamień na przycisk, który jest linkiem */}
           <Link to={ROUTES.home} className={buttonClasses('primary', 'mt-8')}>
             <ArrowLeft size={16} aria-hidden />
             Wróć na stronę główną

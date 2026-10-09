@@ -1,5 +1,6 @@
 import { Check, Dumbbell, Megaphone, Salad, Sparkles, type LucideIcon } from 'lucide-react'
 import { Link } from 'react-router'
+import { Button } from '../../library/Buttons/Button/Button'
 import { ROUTES, SECTION_IDS } from '../../siteConfig'
 import { buttonClasses } from '../ui/styles'
 
@@ -80,6 +81,7 @@ export function PricingSection() {
               <p className="text-sm text-brand-text-secondary">Wszystkie moduły z reklamami. Bez opłat.</p>
             </div>
           </div>
+          {/* TODO: zamień na przycisk, który jest linkiem */}
           <Link to={ROUTES.register} className={buttonClasses('outline', 'w-full sm:w-auto')}>
             Dołącz do nas
           </Link>
@@ -140,13 +142,14 @@ function PlanCard({ plan }: { plan: Plan }) {
       </ul>
 
       <div className="mt-auto pt-8">
-        <button
-          type="button"
+        {/* TODO: dodaj do Button props type ("button") */}
+        <Button
+          label="Kup plan"
+          color={featured ? 'brand-primary' : 'brand-text-button'}
+          colorBackground={featured ? 'brand-text-button' : 'brand-tertiary'}
+          fullWidth
           onClick={() => handleBuy(plan.id)}
-          className={buttonClasses(featured ? 'inverse' : 'tertiary', 'w-full')}
-        >
-          Kup plan
-        </button>
+        />
       </div>
     </article>
   )

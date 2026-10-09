@@ -42,10 +42,12 @@ export function Hero() {
             jednym kalendarzu.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            {/* TODO: zamień na przycisk, który jest linkiem */}
             <Link to={ROUTES.register} className={buttonClasses('primary', '', 'lg')}>
               Dołącz do nas
               <ArrowRight size={18} aria-hidden />
             </Link>
+            {/* TODO: zamień na przycisk, który jest linkiem */}
             <a href={`#${SECTION_IDS.diet}`} className={buttonClasses('outline', '', 'lg')}>
               Jak to działa?
             </a>

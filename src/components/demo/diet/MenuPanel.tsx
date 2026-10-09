@@ -3,9 +3,10 @@ import { useState, type FormEvent } from 'react'
 import { formatAmount, formatNumber, parseNumber } from '../../../lib/format'
 import { energySplit, macrosFor, mealMacros, sumMacros, type Macros } from '../../../lib/nutrition'
 import type { Category, Meal, Product } from '../../../lib/types'
+import { Button } from '../../../library/Buttons/Button/Button'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
-import { buttonClasses, fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
 
 type MenuPanelProps = {
   meals: Meal[]
@@ -199,10 +200,15 @@ function AddItemForm({ meals, products, categories, onAdd }: AddItemFormProps) {
           />
         </Field>
       </div>
-      <button type="submit" className={buttonClasses('secondary', 'w-full sm:w-fit')}>
-        <Plus size={16} aria-hidden />
-        Dodaj do posiłku
-      </button>
+      {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
+      <div className="flex flex-col sm:items-start">
+        <Button
+          label="Dodaj do posiłku"
+          startIcon={<Plus size={16} aria-hidden />}
+          color="brand-text-button"
+          colorBackground="brand-secondary"
+        />
+      </div>
     </form>
   )
 }
@@ -253,10 +259,15 @@ function AddMealForm({ onAdd }: { onAdd: (name: string, time: string) => void })
           />
         </Field>
       </div>
-      <button type="submit" className={buttonClasses('secondary', 'w-full sm:w-fit')}>
-        <Plus size={16} aria-hidden />
-        Dodaj posiłek
-      </button>
+      {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
+      <div className="flex flex-col sm:items-start">
+        <Button
+          label="Dodaj posiłek"
+          startIcon={<Plus size={16} aria-hidden />}
+          color="brand-text-button"
+          colorBackground="brand-secondary"
+        />
+      </div>
     </form>
   )
 }
