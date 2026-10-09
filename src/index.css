@@ -1,0 +1,187 @@
+@import 'tailwindcss';
+
+/*
+ * VitaMate - tokeny projektowe.
+ *
+ * Kolory używamy wyłącznie przez klasy brand-*, np. bg-brand-bg-primary,
+ * text-brand-text-primary, border-brand-text-tertiary, bg-brand-accent-one/15.
+ * Stany i akcenty mają jeden kolor; tło to ten sam kolor z 15% krycia (kolor/15).
+ *
+ * Motyw ciemny: atrybut data-theme="dark" na <html>. Ustawia go skrypt w index.html
+ * na podstawie localStorage "vita-mate-theme" ("light" | "dark").
+ *
+ * Zaokrąglenia: przyciski rounded-full, karty rounded-2xl (16 px), pola formularzy rounded-xl (12 px).
+ */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Outfit Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Tła */
+  --color-brand-bg-primary: #f4f1e8; /* tło strony */
+  --color-brand-bg-secondary: #e6dcc4; /* sekcje naprzemienne */
+  --color-brand-bg-tertiary: #fbf9f4; /* karty */
+  --color-brand-bg-quaternary: #e8d4be; /* sekcja wyróżniona */
+
+  /* Tekst */
+  --color-brand-text-primary: #5c4633; /* tekst główny */
+  --color-brand-text-secondary: #695644; /* tekst pomocniczy */
+  /* Kontrast ok. 4:1. Obramowania pól, podziały, placeholdery i duże napisy. Nie na zwykły tekst. */
+  --color-brand-text-tertiary: #7d7566;
+  --color-brand-text-button: #f4f1e8; /* napis na przyciskach brand-primary/secondary/tertiary */
+
+  /* Marka i przyciski. brand-primary służy też do nagłówków, linków i obwódki fokusu. */
+  --color-brand-primary: #2e4a34;
+  --color-brand-secondary: #56684a;
+  --color-brand-tertiary: #5c4633;
+
+  /* Stany */
+  --color-brand-success: #455439;
+  --color-brand-warning: #664a0f;
+  --color-brand-error: #883328;
+  --color-brand-info: #315365;
+
+  /* Akcenty: chipy, badge, małe karty, tła ikon, kolory kategorii użytkownika */
+  --color-brand-accent-one: #3e5034;
+  --color-brand-accent-two: #6a4529;
+  --color-brand-accent-three: #4f4a40;
+  --color-brand-accent-four: #24564f;
+  --color-brand-accent-five: #5c3a57;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-rise: rise 0.8s var(--ease-out-expo) both;
+  --animate-pop-in: pop-in 0.35s var(--ease-out-expo) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.98);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+
+    --color-brand-bg-primary: #142119;
+    --color-brand-bg-secondary: #1a2a1f;
+    --color-brand-bg-tertiary: #203226;
+    --color-brand-bg-quaternary: #2a2619;
+
+    --color-brand-text-primary: #f4f1e8;
+    --color-brand-text-secondary: #b7b1a4;
+    --color-brand-text-tertiary: #6e8573;
+    --color-brand-text-button: #142119;
+
+    --color-brand-primary: #a4b49a;
+    --color-brand-secondary: #e6dcc4;
+    --color-brand-tertiary: #c9a17a;
+
+    --color-brand-success: #b8c8a8;
+    --color-brand-warning: #e2bd70;
+    --color-brand-error: #ee9f8f;
+    --color-brand-info: #9dc0d2;
+
+    --color-brand-accent-one: #c9d6bc;
+    --color-brand-accent-two: #e6c29e;
+    --color-brand-accent-three: #d2ccc0;
+    --color-brand-accent-four: #a6d3cb;
+    --color-brand-accent-five: #ddbfd9;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-brand-bg-primary);
+    color: var(--color-brand-text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-brand-primary);
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-primary);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-brand-primary) 22%, transparent);
+  }
+}
+
+@layer components {
+  /* Warstwy "exploded view" w sekcji hero.
+     --layer-index (0 = tył, 3 = przód) ustawia warstwa; --stack-gap (odstęp na osi Z)
+     i --stack-lift (przesunięcie w pionie) ustawia kontener zależnie od szerokości ekranu.
+     Tylne warstwy schodzą w dół, przednie idą w górę, symetrycznie względem środka stosu. */
+  .vm-layer {
+    --layer-offset: calc(var(--layer-index) - 1.5); /* -1.5, -0.5, 0.5, 1.5 */
+    transform: translateY(calc(var(--layer-offset) * var(--stack-lift) * -1))
+      translateZ(calc(var(--layer-index) * var(--stack-gap)));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .vm-layer {
+      animation: vm-explode 1.4s var(--ease-out-expo) var(--layer-delay) both;
+    }
+  }
+
+  /* Nakładka pod tekstem hero (wariant backdrop, od lg). Kształt: pełna pod tekstem,
+     zanika w prawo (od --veil-x0 do --veil-x1) i w dół (od --veil-y0 do --veil-y1),
+     liczone od lewego górnego rogu kontenera treści. */
+  .vm-hero-veil {
+    --veil-x0: 380px;
+    --veil-x1: 820px;
+    --veil-y0: 480px;
+    --veil-y1: 640px;
+    --veil-mask:
+      linear-gradient(90deg, #000 var(--veil-x0), transparent var(--veil-x1)),
+      linear-gradient(180deg, #000 var(--veil-y0), transparent var(--veil-y1));
+    -webkit-mask-image: var(--veil-mask);
+    -webkit-mask-composite: source-in;
+    mask-image: var(--veil-mask);
+    mask-composite: intersect;
+  }
+
+  /* Start ze środka stosu: tylne warstwy odjeżdżają do tyłu, przednie do przodu.
+     Minimalny rozstaw na starcie zapobiega migotaniu warstw leżących w jednej płaszczyźnie. */
+  @keyframes vm-explode {
+    from {
+      transform: translateY(0) translateZ(calc((1.5 + var(--layer-offset) * 0.06) * var(--stack-gap)));
+      opacity: 0;
+    }
+  }
+}
