@@ -8,7 +8,7 @@ export function Logo() {
       <span className="inline-flex size-9 items-center justify-center rounded-xl bg-brand-primary text-brand-text-button">
         <Leaf size={18} strokeWidth={2} aria-hidden />
       </span>
-      <span className="font-display text-xl font-semibold tracking-tight text-brand-primary">VitaMate</span>
+      <span className="font-brand-font-secondary text-xl font-semibold tracking-tight text-brand-primary">VitaMate</span>
     </Link>
   )
 }

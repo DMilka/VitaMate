@@ -11,12 +11,15 @@
  * na podstawie localStorage "vita-mate-theme" ("light" | "dark").
  *
  * Zaokrąglenia: przyciski rounded-full, karty rounded-2xl (16 px), pola formularzy rounded-xl (12 px).
+ *
+ * Fonty: font-brand-font-primary (tekst, domyślny dla body) i font-brand-font-secondary (nagłówki, liczby).
+ * Nagłówki nie mają globalnego stylu; font, kolor i łamanie linii ustawia komponent Typography.
  */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme {
-  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Outfit Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-brand-font-primary: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-brand-font-secondary: 'Outfit Variable', ui-sans-serif, system-ui, sans-serif;
 
   /* Tła */
   --color-brand-bg-primary: #f4f1e8; /* tło strony */
@@ -118,18 +121,9 @@
   body {
     background-color: var(--color-brand-bg-primary);
     color: var(--color-brand-text-primary);
-    font-family: var(--font-sans);
+    font-family: var(--font-brand-font-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
-    color: var(--color-brand-primary);
-    text-wrap: balance;
   }
 
   :focus-visible {

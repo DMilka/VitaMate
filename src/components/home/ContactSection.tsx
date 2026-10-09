@@ -3,6 +3,7 @@ import { useState, type FormEvent, type ReactNode } from 'react'
 import { CONTACT, CONTACT_TOPICS, SECTION_IDS, SOCIAL_LINKS } from '../../siteConfig'
 import { Button } from '../../library/Buttons/Button/Button'
 import { RedirectButton } from '../../library/Buttons/RedirectButton/RedirectButton'
+import { Typography } from '../../library/Typography/Typography'
 import { Field } from '../ui/Field'
 import { SocialIcon } from '../ui/SocialIcon'
 import { fieldA11y, inputClasses, selectClasses, textareaClasses } from '../ui/styles'
@@ -12,15 +13,19 @@ export function ContactSection() {
     <section id={SECTION_IDS.contact} aria-labelledby="contact-title" className="scroll-mt-16 bg-brand-bg-secondary">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 lg:px-8 lg:py-24">
         <div>
-          <h2 id="contact-title" className="text-4xl font-semibold tracking-tight sm:text-5xl">
+          <Typography variant="heading-5xl" id="contact-title">
             Kontakt
-          </h2>
-          <p className="mt-5 font-display text-xl leading-snug text-brand-text-primary sm:text-2xl">
-            Masz pytanie? Chętnie odpowiemy.
-          </p>
-          <p className="mt-4 max-w-[50ch] leading-relaxed text-brand-text-secondary">
-            Napisz przez formularz albo skontaktuj się z nami bezpośrednio.
-          </p>
+          </Typography>
+          <div className="mt-5">
+            <Typography variant="subtitle" fontType="brand-font-secondary" color="brand-text-primary">
+              Masz pytanie? Chętnie odpowiemy.
+            </Typography>
+          </div>
+          <div className="mt-4 max-w-[50ch]">
+            <Typography variant="body" color="brand-text-secondary">
+              Napisz przez formularz albo skontaktuj się z nami bezpośrednio.
+            </Typography>
+          </div>
 
           <ul className="mt-8 grid gap-4">
             <ContactRow icon={<Mail size={18} aria-hidden />} label="E-mail">
@@ -48,7 +53,9 @@ export function ContactSection() {
           </ul>
 
           <div className="mt-8">
-            <p className="text-sm text-brand-text-secondary">Znajdziesz nas też tutaj</p>
+            <Typography variant="small" color="brand-text-secondary">
+              Znajdziesz nas też tutaj
+            </Typography>
             <ul className="mt-3 flex gap-2">
               {SOCIAL_LINKS.map((social) => (
                 <li key={social.label}>
@@ -80,7 +87,9 @@ function ContactRow({ icon, label, children }: { icon: ReactNode; label: string;
         {icon}
       </span>
       <div>
-        <p className="text-sm text-brand-text-secondary">{label}</p>
+        <Typography variant="small" color="brand-text-secondary">
+          {label}
+        </Typography>
         {children}
       </div>
     </li>
@@ -135,9 +144,9 @@ function ContactForm() {
       aria-labelledby="contact-form-title"
       className="grid gap-5 self-start rounded-2xl border border-brand-text-tertiary/25 bg-brand-bg-tertiary p-5 shadow-xl shadow-brand-primary/10 dark:shadow-black/40 sm:p-8"
     >
-      <h3 id="contact-form-title" className="text-xl font-semibold">
+      <Typography variant="heading-xl" id="contact-form-title">
         Napisz do nas
-      </h3>
+      </Typography>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field id="contact-first-name" label="Imię" error={errors.firstName}>

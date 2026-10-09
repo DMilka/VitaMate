@@ -4,6 +4,7 @@ import { formatNumber, parseNumber } from '../../../lib/format'
 import { DAYS, totalSets, totalVolume } from '../../../lib/training'
 import type { Category, DayKey, Exercise, PlanEntry } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Field } from '../../ui/Field'
 import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
@@ -55,7 +56,7 @@ export function PlanPanel({ plan, exercises, categories, day, onSelectDay, onAdd
 
       <div>
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <h3 className="text-lg font-semibold">{dayLabel}</h3>
+          <Typography variant="heading-lg">{dayLabel}</Typography>
           <p className="flex gap-4 text-sm text-brand-text-secondary">
             <span>
               Serie: <strong className="font-medium text-brand-text-primary">{totalSets(entries)}</strong>
@@ -83,7 +84,12 @@ export function PlanPanel({ plan, exercises, categories, day, onSelectDay, onAdd
                   className="flex items-center gap-3 rounded-2xl border border-brand-text-tertiary/25 py-2.5 pr-2 pl-4 motion-safe:animate-pop-in"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-brand-text-primary">{exercise.name}</p>
+                    {/* Ellipsis działa, gdy tekst jest elementem inline wewnątrz bloku z truncate. */}
+                    <div className="truncate">
+                      <Typography variant="body-medium" component="span" color="brand-text-primary">
+                        {exercise.name}
+                      </Typography>
+                    </div>
                     {category && (
                       <div className="mt-1">
                         <Badge accent={category.accent}>{category.name}</Badge>
@@ -91,12 +97,12 @@ export function PlanPanel({ plan, exercises, categories, day, onSelectDay, onAdd
                     )}
                   </div>
                   <div className="shrink-0 text-right">
-                    <p className="font-display font-semibold text-brand-text-primary">
-                      {entry.sets} × {entry.reps}
-                    </p>
-                    <p className="text-xs text-brand-text-secondary">
+                    <Typography variant="body-semibold" fontType="brand-font-secondary" color="brand-text-primary">
+                      {`${entry.sets} × ${entry.reps}`}
+                    </Typography>
+                    <Typography variant="caption" color="brand-text-secondary">
                       {entry.weight > 0 ? `${formatNumber(entry.weight)} kg` : 'masa ciała'}
-                    </p>
+                    </Typography>
                   </div>
                   <button
                     type="button"
@@ -172,7 +178,9 @@ function AddEntryForm({ day, dayLabel, exercises, categories, onAdd }: AddEntryF
       noValidate
       className="grid gap-4 rounded-2xl border border-brand-text-tertiary/30 bg-brand-bg-primary/60 p-4"
     >
-      <p className="text-sm font-medium text-brand-text-primary">Dodaj ćwiczenie: {dayLabel.toLocaleLowerCase('pl')}</p>
+      <Typography variant="small-medium" color="brand-text-primary">
+        {`Dodaj ćwiczenie: ${dayLabel.toLocaleLowerCase('pl')}`}
+      </Typography>
       <Field id="entry-exercise" label="Ćwiczenie">
         <select
           id="entry-exercise"
@@ -200,7 +208,11 @@ function AddEntryForm({ day, dayLabel, exercises, categories, onAdd }: AddEntryF
         {numberField('entry-reps', 'Powtórzenia', reps, setReps, 'reps')}
         {numberField('entry-weight', 'Ciężar (kg)', weight, setWeight, 'weight', '0')}
       </div>
-      <p className="-mt-2 text-xs text-brand-text-secondary">Puste pole ciężaru oznacza ćwiczenie z masą ciała.</p>
+      <div className="-mt-2">
+        <Typography variant="caption" color="brand-text-secondary">
+          Puste pole ciężaru oznacza ćwiczenie z masą ciała.
+        </Typography>
+      </div>
       {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
       <div className="flex flex-col sm:items-start">
         <Button

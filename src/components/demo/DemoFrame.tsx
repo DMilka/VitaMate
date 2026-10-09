@@ -1,5 +1,6 @@
 import { FlaskConical, type LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { Typography } from '../../library/Typography/Typography'
 
 /** Ramka "okna aplikacji" dla interaktywnych dem na stronie głównej. */
 export function DemoFrame({ title, icon: Icon, children }: { title: string; icon: LucideIcon; children: ReactNode }) {
@@ -10,7 +11,13 @@ export function DemoFrame({ title, icon: Icon, children }: { title: string; icon
           <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand-primary text-brand-text-button">
             <Icon size={16} aria-hidden />
           </span>
-          <span className="truncate font-display text-lg font-semibold text-brand-primary">{title}</span>
+          {/* TODO: dodaj do Typography props className ("truncate"), wtedy wrapper nie będzie potrzebny.
+              Ellipsis wymaga tekstu inline we wrapperze, a text-lg ustawia wysokość linii wrappera jak w tekście. */}
+          <span className="truncate text-lg">
+            <Typography variant="heading-lg" component="span">
+              {title}
+            </Typography>
+          </span>
         </div>
         <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-brand-info/15 px-2.5 py-1 text-xs font-medium text-brand-info">
           <FlaskConical size={13} aria-hidden />

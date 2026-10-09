@@ -4,6 +4,7 @@ import { accentSoft } from '../../../lib/accents'
 import { createId } from '../../../lib/id'
 import type { Category, Exercise } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
@@ -31,10 +32,16 @@ export function ExercisesPanel({ exercises, categories, onAddExercise, onAddCate
             >
               <div className="flex items-center justify-between gap-2">
                 <Badge accent={category.accent}>{category.name}</Badge>
-                <span className="text-xs text-brand-text-secondary">{inCategory.length}</span>
+                <Typography variant="caption" component="span" color="brand-text-secondary">
+                  {String(inCategory.length)}
+                </Typography>
               </div>
               {inCategory.length === 0 ? (
-                <p className="mt-3 text-sm text-brand-text-secondary">Brak ćwiczeń w tej kategorii.</p>
+                <div className="mt-3">
+                  <Typography variant="small" color="brand-text-secondary">
+                    Brak ćwiczeń w tej kategorii.
+                  </Typography>
+                </div>
               ) : (
                 <ul className="mt-3 grid gap-2">
                   {inCategory.map((exercise) => (

@@ -4,6 +4,7 @@ import { formatAmount, formatNumber, parseNumber } from '../../../lib/format'
 import { energySplit, macrosFor, mealMacros, sumMacros, type Macros } from '../../../lib/nutrition'
 import type { Category, Meal, Product } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { Typography } from '../../../library/Typography/Typography'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
 import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
@@ -32,20 +33,26 @@ export function MenuPanel({ meals, products, categories, onAddItem, onRemoveItem
           return (
             <li key={meal.id} className="rounded-2xl border border-brand-text-tertiary/25 p-4 motion-safe:animate-pop-in">
               <div className="flex items-baseline justify-between gap-3">
-                <h3 className="flex min-w-0 items-center gap-2 text-base font-semibold">
+                <h3 className="flex min-w-0 items-center gap-2 font-brand-font-secondary text-base font-semibold text-balance text-brand-primary">
                   <span className="inline-flex items-center gap-1 text-sm font-medium text-brand-text-secondary">
                     <Clock size={14} aria-hidden />
                     {meal.time}
                   </span>
                   <span className="truncate">{meal.name}</span>
                 </h3>
-                <span className="shrink-0 text-sm font-medium whitespace-nowrap text-brand-text-primary">
-                  {formatNumber(Math.round(total.kcal))} kcal
-                </span>
+                <div className="shrink-0 whitespace-nowrap">
+                  <Typography variant="small-medium" color="brand-text-primary">
+                    {`${formatNumber(Math.round(total.kcal))} kcal`}
+                  </Typography>
+                </div>
               </div>
 
               {meal.items.length === 0 ? (
-                <p className="mt-2 text-sm text-brand-text-secondary">Brak produktów. Dodaj pierwszy w formularzu poniżej.</p>
+                <div className="mt-2">
+                  <Typography variant="small" color="brand-text-secondary">
+                    Brak produktów. Dodaj pierwszy w formularzu poniżej.
+                  </Typography>
+                </div>
               ) : (
                 <ul className="mt-2 grid gap-1">
                   {meal.items.map((item) => {
@@ -97,8 +104,10 @@ function DaySummary({ total }: { total: Macros }) {
     <div className="rounded-2xl bg-brand-bg-secondary p-4">
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="text-sm text-brand-text-secondary">Poniedziałek, suma dnia</p>
-          <p className="font-display text-3xl font-semibold text-brand-primary">
+          <Typography variant="small" color="brand-text-secondary">
+            Poniedziałek, suma dnia
+          </Typography>
+          <p className="font-brand-font-secondary text-3xl font-semibold text-brand-primary">
             {formatNumber(Math.round(total.kcal))} <span className="text-lg font-medium">kcal</span>
           </p>
         </div>
@@ -153,7 +162,9 @@ function AddItemForm({ meals, products, categories, onAdd }: AddItemFormProps) {
       noValidate
       className="grid gap-4 rounded-2xl border border-brand-text-tertiary/30 bg-brand-bg-primary/60 p-4"
     >
-      <p className="text-sm font-medium text-brand-text-primary">Dodaj produkt do posiłku</p>
+      <Typography variant="small-medium" color="brand-text-primary">
+        Dodaj produkt do posiłku
+      </Typography>
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_7rem]">
         <Field id="item-meal" label="Posiłek">
           <select id="item-meal" className={selectClasses} value={mealId} onChange={(e) => setMealId(e.target.value)}>

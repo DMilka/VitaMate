@@ -1,6 +1,7 @@
 import { ArrowLeft, Hammer } from 'lucide-react'
 import { Logo } from '../components/ui/Logo'
 import { LinkButton } from '../library/Buttons/LinkButton/LinkButton'
+import { Typography } from '../library/Typography/Typography'
 import { ROUTES } from '../siteConfig'
 
 /** Tymczasowa strona dla podstron, które powstaną w kolejnych etapach (rejestracja, logowanie). */
@@ -15,8 +16,14 @@ export function PlaceholderPage({ title, description }: { title: string; descrip
           <span className="mx-auto inline-flex size-12 items-center justify-center rounded-2xl bg-brand-accent-two/15 text-brand-accent-two">
             <Hammer size={22} aria-hidden />
           </span>
-          <h1 className="mt-5 text-3xl font-semibold tracking-tight">{title}</h1>
-          <p className="mt-3 text-brand-text-secondary">{description}</p>
+          <div className="mt-5">
+            <Typography variant="heading-3xl">{title}</Typography>
+          </div>
+          <div className="mt-3">
+            <Typography variant="body" color="brand-text-secondary">
+              {description}
+            </Typography>
+          </div>
           {/* TODO: dodaj do LinkButton props className ("mt-8"), wtedy wrapper nie będzie potrzebny */}
           <div className="mt-8">
             <LinkButton

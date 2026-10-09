@@ -1,4 +1,5 @@
 import { CalendarDays, Salad, ScanBarcode, ShoppingBasket, UtensilsCrossed } from 'lucide-react'
+import { Typography } from '../../library/Typography/Typography'
 import { SECTION_IDS } from '../../siteConfig'
 import { DietDemo } from '../demo/diet/DietDemo'
 
@@ -18,17 +19,21 @@ export function DietSection() {
             <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-brand-accent-one/15 text-brand-accent-one">
               <Salad size={22} aria-hidden />
             </span>
-            <h2 id="diet-title" className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            <Typography variant="heading-5xl" id="diet-title">
               Dieta
-            </h2>
+            </Typography>
           </div>
-          <p className="mt-5 font-display text-xl leading-snug text-brand-text-primary sm:text-2xl">
-            Jadłospis z Twoich produktów, a z niego gotowa lista zakupów.
-          </p>
-          <p className="mt-4 max-w-[60ch] leading-relaxed text-brand-text-secondary">
-            Każdy produkt ma kategorię, miarę, kalorie i makroskładniki. Resztę policzymy za Ciebie: posiłek, cały dzień i
-            zakupy na tydzień.
-          </p>
+          <div className="mt-5">
+            <Typography variant="subtitle" fontType="brand-font-secondary" color="brand-text-primary">
+              Jadłospis z Twoich produktów, a z niego gotowa lista zakupów.
+            </Typography>
+          </div>
+          <div className="mt-4 max-w-[60ch]">
+            <Typography variant="body" color="brand-text-secondary">
+              Każdy produkt ma kategorię, miarę, kalorie i makroskładniki. Resztę policzymy za Ciebie: posiłek, cały dzień
+              i zakupy na tydzień.
+            </Typography>
+          </div>
 
           <ol className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             {STEPS.map(({ icon: Icon, title, text }) => (
@@ -37,8 +42,12 @@ export function DietSection() {
                   <Icon size={18} aria-hidden />
                 </span>
                 <div>
-                  <h3 className="text-base font-semibold">{title}</h3>
-                  <p className="mt-0.5 text-sm leading-relaxed text-brand-text-secondary">{text}</p>
+                  <Typography variant="heading-base">{title}</Typography>
+                  <div className="mt-0.5">
+                    <Typography variant="small-relaxed" color="brand-text-secondary">
+                      {text}
+                    </Typography>
+                  </div>
                 </div>
               </li>
             ))}

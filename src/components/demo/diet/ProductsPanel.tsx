@@ -4,6 +4,7 @@ import { formatNumber, measureLabel, parseNumber } from '../../../lib/format'
 import { createId } from '../../../lib/id'
 import type { Category, Measure, Product } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
@@ -28,14 +29,23 @@ export function ProductsPanel({ products, categories, onAddProduct, onAddCategor
           return (
             <li key={product.id} className="flex items-start justify-between gap-3 py-3 first:pt-0 motion-safe:animate-pop-in">
               <div className="min-w-0">
-                <p className="truncate font-medium text-brand-text-primary">{product.name}</p>
+                {/* Ellipsis działa, gdy tekst jest elementem inline wewnątrz bloku z truncate. */}
+                <div className="truncate">
+                  <Typography variant="body-medium" component="span" color="brand-text-primary">
+                    {product.name}
+                  </Typography>
+                </div>
                 <div className="mt-1 flex flex-wrap items-center gap-2">
                   {category && <Badge accent={category.accent}>{category.name}</Badge>}
-                  <span className="text-xs text-brand-text-secondary">{measureLabel(product.measure)}</span>
+                  <Typography variant="caption" component="span" color="brand-text-secondary">
+                    {measureLabel(product.measure)}
+                  </Typography>
                 </div>
               </div>
               <div className="shrink-0 text-right">
-                <p className="font-display font-semibold text-brand-text-primary">{formatNumber(product.kcal)} kcal</p>
+                <Typography variant="body-semibold" fontType="brand-font-secondary" color="brand-text-primary">
+                  {`${formatNumber(product.kcal)} kcal`}
+                </Typography>
                 <p className="mt-0.5 flex justify-end gap-2 text-xs text-brand-text-secondary">
                   <span>B {formatNumber(product.protein)}</span>
                   <span>T {formatNumber(product.fat)}</span>

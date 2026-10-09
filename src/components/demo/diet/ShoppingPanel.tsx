@@ -2,6 +2,7 @@ import { CalendarRange } from 'lucide-react'
 import { formatAmount } from '../../../lib/format'
 import { buildShoppingList } from '../../../lib/nutrition'
 import type { Category, Meal, Product } from '../../../lib/types'
+import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 
 type ShoppingPanelProps = {
@@ -19,10 +20,14 @@ export function ShoppingPanel({ meals, products, categories, checked, onToggle }
   return (
     <div className="grid gap-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="font-medium text-brand-text-primary">Lista na poniedziałek</p>
-        <p className="text-sm text-brand-text-secondary" aria-live="polite">
-          W koszyku {inBasket} z {items.length}
-        </p>
+        <Typography variant="body-medium" color="brand-text-primary">
+          Lista na poniedziałek
+        </Typography>
+        <div aria-live="polite">
+          <Typography variant="small" color="brand-text-secondary">
+            {`W koszyku ${inBasket} z ${items.length}`}
+          </Typography>
+        </div>
       </div>
 
       {items.length === 0 ? (
@@ -54,9 +59,11 @@ export function ShoppingPanel({ meals, products, categories, checked, onToggle }
                           >
                             {item.name}
                           </span>
-                          <span className="shrink-0 text-sm font-medium text-brand-text-secondary">
-                            {formatAmount(item.amount, item.measure)}
-                          </span>
+                          <div className="shrink-0">
+                            <Typography variant="small-medium" color="brand-text-secondary">
+                              {formatAmount(item.amount, item.measure)}
+                            </Typography>
+                          </div>
                         </label>
                       </li>
                     )

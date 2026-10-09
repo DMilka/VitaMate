@@ -24,7 +24,7 @@ function Layer({ index, children }: { index: number; children: ReactNode }) {
 function LayerHeader({ icon, title, meta }: { icon: ReactNode; title: string; meta: string }) {
   return (
     <div className="flex items-center justify-between gap-2">
-      <span className="flex items-center gap-2 font-display text-sm font-semibold text-brand-primary">
+      <span className="flex items-center gap-2 font-brand-font-secondary text-sm font-semibold text-brand-primary">
         <span className="inline-flex size-6 items-center justify-center rounded-md bg-brand-primary text-brand-text-button">
           {icon}
         </span>
@@ -126,7 +126,7 @@ export function HeroStack({ variant = 'split' }: { variant?: HeroVariant }) {
 
           <Layer index={2}>
             <LayerHeader icon={<Clock size={13} />} title="Śniadanie" meta="07:30" />
-            <p className="mt-3 font-display text-2xl font-semibold text-brand-primary">
+            <p className="mt-3 font-brand-font-secondary text-2xl font-semibold text-brand-primary">
               486 <span className="text-sm font-medium">kcal</span>
             </p>
             <div className="mt-2 flex h-1.5 overflow-hidden rounded-full">

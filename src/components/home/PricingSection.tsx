@@ -1,6 +1,7 @@
 import { Check, Dumbbell, Megaphone, Salad, Sparkles, type LucideIcon } from 'lucide-react'
 import { Button } from '../../library/Buttons/Button/Button'
 import { LinkButton } from '../../library/Buttons/LinkButton/LinkButton'
+import { Typography } from '../../library/Typography/Typography'
 import { ROUTES, SECTION_IDS } from '../../siteConfig'
 
 type Plan = {
@@ -62,12 +63,16 @@ export function PricingSection() {
     <section id={SECTION_IDS.pricing} aria-labelledby="pricing-title" className="scroll-mt-16 bg-brand-bg-quaternary">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="max-w-2xl">
-          <h2 id="pricing-title" className="text-4xl font-semibold tracking-tight sm:text-5xl">
+          <Typography variant="heading-5xl" id="pricing-title">
             Cennik
-          </h2>
-          <p className="mt-4 max-w-[60ch] text-lg leading-relaxed text-brand-text-primary">
-            Darmowe konto daje dostęp do aplikacji z reklamami. Wybierz plan, aby korzystać z modułów bez reklam.
-          </p>
+          </Typography>
+          {/* TODO: dodaj do Typography props className ("mt-4 max-w-[60ch]"), wtedy wrapper nie będzie potrzebny.
+              text-lg tylko po to, żeby ch liczyło się od rozmiaru tekstu jak wcześniej. */}
+          <div className="mt-4 max-w-[60ch] text-lg">
+            <Typography variant="lead" color="brand-text-primary">
+              Darmowe konto daje dostęp do aplikacji z reklamami. Wybierz plan, aby korzystać z modułów bez reklam.
+            </Typography>
+          </div>
         </div>
 
         <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-brand-text-tertiary/30 bg-brand-bg-tertiary/70 p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -76,8 +81,10 @@ export function PricingSection() {
               <Megaphone size={18} aria-hidden />
             </span>
             <div>
-              <h3 className="text-base font-semibold">Darmowe konto</h3>
-              <p className="text-sm text-brand-text-secondary">Wszystkie moduły z reklamami. Bez opłat.</p>
+              <Typography variant="heading-base">Darmowe konto</Typography>
+              <Typography variant="small" color="brand-text-secondary">
+                Wszystkie moduły z reklamami. Bez opłat.
+              </Typography>
             </div>
           </div>
           {/* Pełna szerokość na mobile daje rodzic (flex-col), od sm szerokość treści. */}
@@ -107,7 +114,8 @@ export function PricingSection() {
 
 function PlanCard({ plan }: { plan: Plan }) {
   const { featured, icon: Icon } = plan
-  const muted = featured ? 'text-brand-text-button/80' : 'text-brand-text-secondary'
+  const mutedColor = featured ? 'brand-text-button' : 'brand-text-secondary'
+  const mutedCover = featured ? 80 : undefined
 
   return (
     <article
@@ -130,12 +138,22 @@ function PlanCard({ plan }: { plan: Plan }) {
         )}
       </div>
 
-      <h3 className={`mt-5 text-2xl font-semibold ${featured ? 'text-brand-text-button' : ''}`}>{plan.name}</h3>
-      <p className={`mt-1 text-sm ${muted}`}>{plan.description}</p>
+      <div className="mt-5">
+        <Typography variant="heading-2xl" color={featured ? 'brand-text-button' : undefined}>
+          {plan.name}
+        </Typography>
+      </div>
+      <div className="mt-1">
+        <Typography variant="small" color={mutedColor} colorCover={mutedCover}>
+          {plan.description}
+        </Typography>
+      </div>
 
       <p className="mt-6 flex items-baseline gap-1.5">
-        <span className="font-display text-4xl font-semibold">{plan.price}</span>
-        <span className={`text-sm ${muted}`}>/ miesiąc</span>
+        <span className="font-brand-font-secondary text-4xl font-semibold">{plan.price}</span>
+        <Typography variant="small" component="span" color={mutedColor} colorCover={mutedCover}>
+          / miesiąc
+        </Typography>
       </p>
 
       <ul className="mt-6 grid gap-3 text-sm">

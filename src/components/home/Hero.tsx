@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { LinkButton } from '../../library/Buttons/LinkButton/LinkButton'
+import { Typography } from '../../library/Typography/Typography'
 import { ROUTES, SECTION_IDS } from '../../siteConfig'
 import { HeroStack, type HeroVariant } from './HeroStack'
 
@@ -33,13 +34,20 @@ export function Hero() {
         )}
 
         <div className="max-w-xl motion-safe:animate-rise">
-          <h1 id="hero-title" className="text-[2.6rem] leading-[1.05] font-semibold tracking-tight sm:text-6xl lg:text-[4.25rem]">
+          <h1
+            id="hero-title"
+            className="font-brand-font-secondary text-[2.6rem] leading-[1.05] font-semibold tracking-tight text-balance text-brand-primary sm:text-6xl lg:text-[4.25rem]"
+          >
             Dieta i trening <span className="text-brand-secondary">w jednym planie</span>
           </h1>
-          <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-brand-text-secondary">
-            Twórz jadłospisy z własnych produktów, generuj listy zakupów i układaj plany treningowe. Wszystko widzisz w
-            jednym kalendarzu.
-          </p>
+          {/* TODO: dodaj do Typography props className ("mt-5 max-w-[46ch]"), wtedy wrapper nie będzie potrzebny.
+              text-lg tylko po to, żeby ch liczyło się od rozmiaru tekstu jak wcześniej. */}
+          <div className="mt-5 max-w-[46ch] text-lg">
+            <Typography variant="lead" color="brand-text-secondary">
+              Twórz jadłospisy z własnych produktów, generuj listy zakupów i układaj plany treningowe. Wszystko widzisz w
+              jednym kalendarzu.
+            </Typography>
+          </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <LinkButton
               redirectPath={ROUTES.register}

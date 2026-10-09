@@ -1,4 +1,5 @@
 import { CalendarDays, Dumbbell, Library, Tags } from 'lucide-react'
+import { Typography } from '../../library/Typography/Typography'
 import { SECTION_IDS } from '../../siteConfig'
 import { TrainingDemo } from '../demo/training/TrainingDemo'
 
@@ -17,17 +18,21 @@ export function TrainingSection() {
             <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-brand-accent-four/15 text-brand-accent-four">
               <Dumbbell size={22} aria-hidden />
             </span>
-            <h2 id="training-title" className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            <Typography variant="heading-5xl" id="training-title">
               Trening
-            </h2>
+            </Typography>
           </div>
-          <p className="mt-5 font-display text-xl leading-snug text-brand-text-primary sm:text-2xl">
-            Ćwiczenia, serie i ciężar rozpisane na dni tygodnia.
-          </p>
-          <p className="mt-4 max-w-[60ch] leading-relaxed text-brand-text-secondary">
-            Tworzysz kategorie i ćwiczenia, a potem składasz z nich plan. Każdemu dniu przypisujesz serie, powtórzenia i
-            ciężar.
-          </p>
+          <div className="mt-5">
+            <Typography variant="subtitle" fontType="brand-font-secondary" color="brand-text-primary">
+              Ćwiczenia, serie i ciężar rozpisane na dni tygodnia.
+            </Typography>
+          </div>
+          <div className="mt-4 max-w-[60ch]">
+            <Typography variant="body" color="brand-text-secondary">
+              Tworzysz kategorie i ćwiczenia, a potem składasz z nich plan. Każdemu dniu przypisujesz serie, powtórzenia
+              i ciężar.
+            </Typography>
+          </div>
         </div>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-12">
@@ -38,8 +43,14 @@ export function TrainingSection() {
             {POINTS.map(({ icon: Icon, title, text }) => (
               <li key={title} className="rounded-2xl bg-brand-bg-secondary p-5">
                 <Icon size={20} aria-hidden className="text-brand-primary" />
-                <h3 className="mt-3 text-base font-semibold">{title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-brand-text-secondary">{text}</p>
+                <div className="mt-3">
+                  <Typography variant="heading-base">{title}</Typography>
+                </div>
+                <div className="mt-1">
+                  <Typography variant="small-relaxed" color="brand-text-secondary">
+                    {text}
+                  </Typography>
+                </div>
               </li>
             ))}
           </ul>
