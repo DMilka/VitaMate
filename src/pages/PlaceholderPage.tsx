@@ -1,7 +1,6 @@
 import { ArrowLeft, Hammer } from 'lucide-react'
-import { Link } from 'react-router'
 import { Logo } from '../components/ui/Logo'
-import { buttonClasses } from '../components/ui/styles'
+import { LinkButton } from '../library/Buttons/LinkButton/LinkButton'
 import { ROUTES } from '../siteConfig'
 
 /** Tymczasowa strona dla podstron, które powstaną w kolejnych etapach (rejestracja, logowanie). */
@@ -18,11 +17,16 @@ export function PlaceholderPage({ title, description }: { title: string; descrip
           </span>
           <h1 className="mt-5 text-3xl font-semibold tracking-tight">{title}</h1>
           <p className="mt-3 text-brand-text-secondary">{description}</p>
-          {/* TODO: zamień na przycisk, który jest linkiem */}
-          <Link to={ROUTES.home} className={buttonClasses('primary', 'mt-8')}>
-            <ArrowLeft size={16} aria-hidden />
-            Wróć na stronę główną
-          </Link>
+          {/* TODO: dodaj do LinkButton props className ("mt-8"), wtedy wrapper nie będzie potrzebny */}
+          <div className="mt-8">
+            <LinkButton
+              redirectPath={ROUTES.home}
+              label="Wróć na stronę główną"
+              startIcon={<ArrowLeft size={16} aria-hidden />}
+              color="brand-text-button"
+              colorBackground="brand-primary"
+            />
+          </div>
         </div>
       </main>
     </div>

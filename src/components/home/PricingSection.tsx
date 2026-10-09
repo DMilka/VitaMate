@@ -1,8 +1,7 @@
 import { Check, Dumbbell, Megaphone, Salad, Sparkles, type LucideIcon } from 'lucide-react'
-import { Link } from 'react-router'
 import { Button } from '../../library/Buttons/Button/Button'
+import { LinkButton } from '../../library/Buttons/LinkButton/LinkButton'
 import { ROUTES, SECTION_IDS } from '../../siteConfig'
-import { buttonClasses } from '../ui/styles'
 
 type Plan = {
   id: string
@@ -81,10 +80,17 @@ export function PricingSection() {
               <p className="text-sm text-brand-text-secondary">Wszystkie moduły z reklamami. Bez opłat.</p>
             </div>
           </div>
-          {/* TODO: zamień na przycisk, który jest linkiem */}
-          <Link to={ROUTES.register} className={buttonClasses('outline', 'w-full sm:w-auto')}>
-            Dołącz do nas
-          </Link>
+          {/* Pełna szerokość na mobile daje rodzic (flex-col), od sm szerokość treści. */}
+          <LinkButton
+            redirectPath={ROUTES.register}
+            label="Dołącz do nas"
+            color="brand-text-primary"
+            colorBorder="brand-text-tertiary"
+            colorHover="brand-text-primary"
+            colorBorderHover="brand-text-tertiary"
+            colorBackgroundHover="brand-text-primary"
+            colorBackgroundHoverCover={5}
+          />
         </div>
 
         <ul className="mt-6 grid gap-5 lg:grid-cols-3 lg:items-stretch">

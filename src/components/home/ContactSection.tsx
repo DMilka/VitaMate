@@ -2,6 +2,7 @@ import { Info, Mail, MapPin, Phone, Send } from 'lucide-react'
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { CONTACT, CONTACT_TOPICS, SECTION_IDS, SOCIAL_LINKS } from '../../siteConfig'
 import { Button } from '../../library/Buttons/Button/Button'
+import { RedirectButton } from '../../library/Buttons/RedirectButton/RedirectButton'
 import { Field } from '../ui/Field'
 import { SocialIcon } from '../ui/SocialIcon'
 import { fieldA11y, inputClasses, selectClasses, textareaClasses } from '../ui/styles'
@@ -51,14 +52,15 @@ export function ContactSection() {
             <ul className="mt-3 flex gap-2">
               {SOCIAL_LINKS.map((social) => (
                 <li key={social.label}>
-                  {/* TODO: zamień na przycisk, który jest linkiem */}
-                  <a
-                    href={social.href}
-                    aria-label={`VitaMate: ${social.label}`}
-                    className="inline-flex size-11 items-center justify-center rounded-full bg-brand-bg-tertiary text-brand-primary transition-colors hover:bg-brand-primary hover:text-brand-text-button"
-                  >
-                    <SocialIcon icon={social.icon} />
-                  </a>
+                  {/* TODO: dodaj do RedirectButton props aria-label ({`VitaMate: ${social.label}`}) */}
+                  <RedirectButton
+                    path={social.href}
+                    startIcon={<SocialIcon icon={social.icon} />}
+                    color="brand-primary"
+                    colorBackground="brand-bg-tertiary"
+                    colorHover="brand-text-button"
+                    colorBackgroundHover="brand-primary"
+                  />
                 </li>
               ))}
             </ul>

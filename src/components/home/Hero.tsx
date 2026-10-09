@@ -1,7 +1,6 @@
 import { ArrowRight } from 'lucide-react'
-import { Link } from 'react-router'
+import { LinkButton } from '../../library/Buttons/LinkButton/LinkButton'
 import { ROUTES, SECTION_IDS } from '../../siteConfig'
-import { buttonClasses } from '../ui/styles'
 import { HeroStack, type HeroVariant } from './HeroStack'
 
 // 'backdrop' - aktualny układ (zaakceptowany). 'split' przywraca poprzedni układ z panelami w prawej kolumnie.
@@ -42,15 +41,25 @@ export function Hero() {
             jednym kalendarzu.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            {/* TODO: zamień na przycisk, który jest linkiem */}
-            <Link to={ROUTES.register} className={buttonClasses('primary', '', 'lg')}>
-              Dołącz do nas
-              <ArrowRight size={18} aria-hidden />
-            </Link>
-            {/* TODO: zamień na przycisk, który jest linkiem */}
-            <a href={`#${SECTION_IDS.diet}`} className={buttonClasses('outline', '', 'lg')}>
-              Jak to działa?
-            </a>
+            <LinkButton
+              redirectPath={ROUTES.register}
+              size="lg"
+              label="Dołącz do nas"
+              endIcon={<ArrowRight size={18} aria-hidden />}
+              color="brand-text-button"
+              colorBackground="brand-primary"
+            />
+            <LinkButton
+              sectionPath={`#${SECTION_IDS.diet}`}
+              size="lg"
+              label="Jak to działa?"
+              color="brand-text-primary"
+              colorBorder="brand-text-tertiary"
+              colorHover="brand-text-primary"
+              colorBorderHover="brand-text-tertiary"
+              colorBackgroundHover="brand-text-primary"
+              colorBackgroundHoverCover={5}
+            />
           </div>
         </div>
 

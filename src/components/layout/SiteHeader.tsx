@@ -1,10 +1,9 @@
 import { LogIn, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router'
 import { Button } from '../../library/Buttons/Button/Button'
+import { LinkButton } from '../../library/Buttons/LinkButton/LinkButton'
 import { NAV_LINKS, ROUTES } from '../../siteConfig'
 import { Logo } from '../ui/Logo'
-import { buttonClasses } from '../ui/styles'
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -40,11 +39,18 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <div className="hidden lg:block">
-            {/* TODO: zamień na przycisk, który jest linkiem */}
-            <Link to={ROUTES.login} className={buttonClasses('outline', '', 'sm')}>
-              <LogIn size={16} aria-hidden />
-              Zaloguj się
-            </Link>
+            <LinkButton
+              redirectPath={ROUTES.login}
+              size="sm"
+              label="Zaloguj się"
+              startIcon={<LogIn size={16} aria-hidden />}
+              color="brand-text-primary"
+              colorBorder="brand-text-tertiary"
+              colorHover="brand-text-primary"
+              colorBorderHover="brand-text-tertiary"
+              colorBackgroundHover="brand-text-primary"
+              colorBackgroundHoverCover={5}
+            />
           </div>
           {/* TODO: dodaj do Button props type ("button"), aria-expanded ({menuOpen}), aria-controls ("mobile-menu"),
               aria-label (menuOpen ? 'Zamknij menu' : 'Otwórz menu') i className ("lg:hidden"), wtedy wrapper nie będzie potrzebny */}
@@ -77,11 +83,17 @@ export function SiteHeader() {
                 </li>
               ))}
             </ul>
-            {/* TODO: zamień na przycisk, który jest linkiem */}
-            <Link to={ROUTES.login} className={buttonClasses('primary', 'mt-3 w-full')}>
-              <LogIn size={16} aria-hidden />
-              Zaloguj się
-            </Link>
+            {/* TODO: dodaj do LinkButton props className ("mt-3"), wtedy wrapper nie będzie potrzebny */}
+            <div className="mt-3">
+              <LinkButton
+                redirectPath={ROUTES.login}
+                label="Zaloguj się"
+                startIcon={<LogIn size={16} aria-hidden />}
+                color="brand-text-button"
+                colorBackground="brand-primary"
+                fullWidth
+              />
+            </div>
           </nav>
         </div>
       )}
