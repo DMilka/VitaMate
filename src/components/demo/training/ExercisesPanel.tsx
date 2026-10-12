@@ -5,11 +5,10 @@ import { createId } from '../../../lib/id'
 import type { Category, Exercise } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
 import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
+import { SelectInput } from '../../../library/Inputs/SelectInput/SelectInput'
 import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
-import { Field } from '../../ui/Field'
-import { selectClasses } from '../../ui/styles'
 import { CategoryForm } from '../CategoryForm'
 
 type ExercisesPanelProps = {
@@ -112,20 +111,13 @@ function ExerciseForm({ exercises, categories, onAdd }: ExerciseFormProps) {
             setError(undefined)
           }}
         />
-        <Field id="exercise-category" label="Kategoria">
-          <select
-            id="exercise-category"
-            className={selectClasses}
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-          >
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <SelectInput
+          id="exercise-category"
+          label="Kategoria"
+          elements={categories.map((c) => ({ name: c.name, value: c.id }))}
+          value={categoryId}
+          onChange={setCategoryId}
+        />
       </div>
       {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
       <div className="flex flex-col sm:items-start">

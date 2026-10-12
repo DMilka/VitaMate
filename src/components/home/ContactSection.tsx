@@ -4,10 +4,11 @@ import { CONTACT, CONTACT_TOPICS, SECTION_IDS, SOCIAL_LINKS } from '../../siteCo
 import { Button } from '../../library/Buttons/Button/Button'
 import { RedirectButton } from '../../library/Buttons/RedirectButton/RedirectButton'
 import { FieldInput } from '../../library/Inputs/FieldInput/FieldInput'
+import { SelectInput } from '../../library/Inputs/SelectInput/SelectInput'
 import { Typography } from '../../library/Typography/Typography'
 import { Field } from '../ui/Field'
 import { SocialIcon } from '../ui/SocialIcon'
-import { fieldA11y, selectClasses, textareaClasses } from '../ui/styles'
+import { fieldA11y, textareaClasses } from '../ui/styles'
 
 export function ContactSection() {
   return (
@@ -188,24 +189,16 @@ function ContactForm() {
         onChange={(e) => update('email', e.target.value)}
       />
 
-      <Field id={FIELD_IDS.topic} label="Temat" error={errors.topic}>
-        <select
-          {...fieldA11y(FIELD_IDS.topic, errors.topic)}
-          name="topic"
-          className={selectClasses}
-          value={values.topic}
-          onChange={(e) => update('topic', e.target.value)}
-        >
-          <option value="" disabled>
-            Wybierz najczęściej zadawane pytanie
-          </option>
-          {CONTACT_TOPICS.map((topic) => (
-            <option key={topic} value={topic}>
-              {topic}
-            </option>
-          ))}
-        </select>
-      </Field>
+      <SelectInput
+        id={FIELD_IDS.topic}
+        label="Temat"
+        placeholder="Wybierz najczęściej zadawane pytanie"
+        elements={CONTACT_TOPICS.map((topic) => ({ name: topic, value: topic }))}
+        value={values.topic}
+        onChange={(value) => update('topic', value)}
+        caption={errors.topic}
+        captionColor="brand-error"
+      />
 
       <Field id={FIELD_IDS.message} label="Wiadomość" error={errors.message}>
         <textarea

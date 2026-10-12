@@ -5,10 +5,9 @@ import { DAYS, totalSets, totalVolume } from '../../../lib/training'
 import type { Category, DayKey, Exercise, PlanEntry } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
 import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
+import { SelectInput } from '../../../library/Inputs/SelectInput/SelectInput'
 import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
-import { Field } from '../../ui/Field'
-import { selectClasses } from '../../ui/styles'
 
 type PlanPanelProps = {
   plan: PlanEntry[]
@@ -182,28 +181,16 @@ function AddEntryForm({ day, dayLabel, exercises, categories, onAdd }: AddEntryF
       <Typography variant="small-medium" color="brand-text-primary">
         {`Dodaj ćwiczenie: ${dayLabel.toLocaleLowerCase('pl')}`}
       </Typography>
-      <Field id="entry-exercise" label="Ćwiczenie">
-        <select
-          id="entry-exercise"
-          className={selectClasses}
-          value={exerciseId}
-          onChange={(e) => setExerciseId(e.target.value)}
-        >
-          {categories.map((category) => {
-            const inCategory = exercises.filter((e) => e.categoryId === category.id)
-            if (inCategory.length === 0) return null
-            return (
-              <optgroup key={category.id} label={category.name}>
-                {inCategory.map((e) => (
-                  <option key={e.id} value={e.id}>
-                    {e.name}
-                  </option>
-                ))}
-              </optgroup>
-            )
-          })}
-        </select>
-      </Field>
+      {/* TODO: dodaj do SelectInput grupowanie opcji (wcześniej <optgroup> z nazwą kategorii) */}
+      <SelectInput
+        id="entry-exercise"
+        label="Ćwiczenie"
+        elements={categories.flatMap((category) =>
+          exercises.filter((e) => e.categoryId === category.id).map((e) => ({ name: e.name, value: e.id })),
+        )}
+        value={exerciseId}
+        onChange={setExerciseId}
+      />
       <div className="grid grid-cols-3 gap-3">
         {numberField('entry-sets', 'Serie', sets, setSets, 'sets')}
         {numberField('entry-reps', 'Powtórzenia', reps, setReps, 'reps')}

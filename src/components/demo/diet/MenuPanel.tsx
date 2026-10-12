@@ -4,11 +4,14 @@ import { formatAmount, formatNumber, parseNumber } from '../../../lib/format'
 import { energySplit, macrosFor, mealMacros, sumMacros, type Macros } from '../../../lib/nutrition'
 import type { Category, Meal, Product } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { DatePicker } from '../../../library/Inputs/DatePicker/DatePicker'
 import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
+import { SelectInput } from '../../../library/Inputs/SelectInput/SelectInput'
+import { TimePicker } from '../../../library/Inputs/TimePicker/TimePicker'
 import { Typography } from '../../../library/Typography/Typography'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
-import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { fieldA11y, inputClasses } from '../../ui/styles'
 
 type MenuPanelProps = {
   meals: Meal[]
@@ -167,37 +170,23 @@ function AddItemForm({ meals, products, categories, onAdd }: AddItemFormProps) {
         Dodaj produkt do posiłku
       </Typography>
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_7rem]">
-        <Field id="item-meal" label="Posiłek">
-          <select id="item-meal" className={selectClasses} value={mealId} onChange={(e) => setMealId(e.target.value)}>
-            {meals.map((meal) => (
-              <option key={meal.id} value={meal.id}>
-                {meal.time} {meal.name}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field id="item-product" label="Produkt">
-          <select
-            id="item-product"
-            className={selectClasses}
-            value={productId}
-            onChange={(e) => setProductId(e.target.value)}
-          >
-            {categories.map((category) => {
-              const inCategory = products.filter((p) => p.categoryId === category.id)
-              if (inCategory.length === 0) return null
-              return (
-                <optgroup key={category.id} label={category.name}>
-                  {inCategory.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.name}
-                    </option>
-                  ))}
-                </optgroup>
-              )
-            })}
-          </select>
-        </Field>
+        <SelectInput
+          id="item-meal"
+          label="Posiłek"
+          elements={meals.map((meal) => ({ name: `${meal.time} ${meal.name}`, value: meal.id }))}
+          value={mealId}
+          onChange={setMealId}
+        />
+        {/* TODO: dodaj do SelectInput grupowanie opcji (wcześniej <optgroup> z nazwą kategorii) */}
+        <SelectInput
+          id="item-product"
+          label="Produkt"
+          elements={categories.flatMap((category) =>
+            products.filter((p) => p.categoryId === category.id).map((p) => ({ name: p.name, value: p.id })),
+          )}
+          value={productId}
+          onChange={setProductId}
+        />
         <FieldInput
           id="item-amount"
           label={product?.measure === 'szt' ? 'Sztuki' : 'Gramy'}
@@ -229,6 +218,8 @@ function AddMealForm({ onAdd }: { onAdd: (name: string, time: string) => void })
   const [name, setName] = useState('')
   const [time, setTime] = useState('16:00')
   const [errors, setErrors] = useState<{ name?: string; time?: string }>({})
+  // TYMCZASOWO: stan podglądu DatePicker, do usunięcia
+  const [previewDate, setPreviewDate] = useState('')
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -269,6 +260,15 @@ function AddMealForm({ onAdd }: { onAdd: (name: string, time: string) => void })
             }}
           />
         </Field>
+        {/* TYMCZASOWO: podgląd DatePicker i TimePicker, do usunięcia. TimePicker ma ten sam stan co pole Godzina. */}
+        <DatePicker
+          id="meal-date-preview"
+          label="Data (podgląd)"
+          placeholder="Wybierz datę"
+          value={previewDate}
+          onChange={setPreviewDate}
+        />
+        <TimePicker id="meal-time-preview" label="Godzina (podgląd)" value={time} onChange={setTime} />
       </div>
       {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
       <div className="flex flex-col sm:items-start">

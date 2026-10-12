@@ -5,11 +5,10 @@ import { createId } from '../../../lib/id'
 import type { Category, Measure, Product } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
 import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
+import { SelectInput } from '../../../library/Inputs/SelectInput/SelectInput'
 import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
-import { Field } from '../../ui/Field'
-import { selectClasses } from '../../ui/styles'
 import { CategoryForm } from '../CategoryForm'
 
 type ProductsPanelProps = {
@@ -92,6 +91,11 @@ const NUTRIENT_FIELDS = [
   { key: 'carbs', label: 'Węglowodany (g)', placeholder: '18' },
 ] as const
 
+const MEASURE_ELEMENTS: { name: string; value: Measure }[] = [
+  { name: 'Wartości na 100 g', value: 'g' },
+  { name: 'Wartości na 1 sztukę', value: 'szt' },
+]
+
 type NutrientKey = (typeof NUTRIENT_FIELDS)[number]['key']
 type ProductFormErrors = Partial<Record<'name' | NutrientKey, string>>
 
@@ -153,31 +157,20 @@ function ProductForm({ categories, onAdd }: { categories: Category[]; onAdd: (pr
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id="product-category" label="Kategoria">
-          <select
-            id="product-category"
-            className={selectClasses}
-            value={values.categoryId}
-            onChange={(e) => update('categoryId', e.target.value)}
-          >
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field id="product-measure" label="Miara">
-          <select
-            id="product-measure"
-            className={selectClasses}
-            value={values.measure}
-            onChange={(e) => update('measure', e.target.value as Measure)}
-          >
-            <option value="g">Wartości na 100 g</option>
-            <option value="szt">Wartości na 1 sztukę</option>
-          </select>
-        </Field>
+        <SelectInput
+          id="product-category"
+          label="Kategoria"
+          elements={categories.map((c) => ({ name: c.name, value: c.id }))}
+          value={values.categoryId}
+          onChange={(value) => update('categoryId', value)}
+        />
+        <SelectInput
+          id="product-measure"
+          label="Miara"
+          elements={MEASURE_ELEMENTS}
+          value={values.measure}
+          onChange={(value) => update('measure', value as Measure)}
+        />
       </div>
 
       <fieldset>
