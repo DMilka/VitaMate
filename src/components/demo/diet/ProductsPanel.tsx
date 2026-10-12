@@ -4,11 +4,12 @@ import { formatNumber, measureLabel, parseNumber } from '../../../lib/format'
 import { createId } from '../../../lib/id'
 import type { Category, Measure, Product } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
 import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
-import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { selectClasses } from '../../ui/styles'
 import { CategoryForm } from '../CategoryForm'
 
 type ProductsPanelProps = {
@@ -141,16 +142,15 @@ function ProductForm({ categories, onAdd }: { categories: Category[]; onAdd: (pr
 
   return (
     <form onSubmit={handleSubmit} noValidate className="grid gap-4">
-      <Field id="product-name" label="Nazwa produktu" error={errors.name}>
-        <input
-          {...fieldA11y('product-name', errors.name)}
-          className={inputClasses}
-          value={values.name}
-          placeholder="Serek wiejski"
-          autoComplete="off"
-          onChange={(e) => update('name', e.target.value)}
-        />
-      </Field>
+      <FieldInput
+        id="product-name"
+        label="Nazwa produktu"
+        value={values.name}
+        placeholder="Serek wiejski"
+        caption={errors.name}
+        captionColor="brand-error"
+        onChange={(e) => update('name', e.target.value)}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field id="product-category" label="Kategoria">
@@ -183,21 +183,19 @@ function ProductForm({ categories, onAdd }: { categories: Category[]; onAdd: (pr
       <fieldset>
         <legend className="text-sm text-brand-text-secondary">Wartości odżywcze na {unit}</legend>
         <div className="mt-2 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {NUTRIENT_FIELDS.map(({ key, label, placeholder }) => {
-            const id = `product-${key}`
-            return (
-              <Field key={key} id={id} label={label} error={errors[key]}>
-                <input
-                  {...fieldA11y(id, errors[key])}
-                  className={inputClasses}
-                  inputMode="decimal"
-                  value={values[key]}
-                  placeholder={placeholder}
-                  onChange={(e) => update(key, e.target.value)}
-                />
-              </Field>
-            )
-          })}
+          {NUTRIENT_FIELDS.map(({ key, label, placeholder }) => (
+            <FieldInput
+              key={key}
+              id={`product-${key}`}
+              label={label}
+              type="number"
+              value={values[key]}
+              placeholder={placeholder}
+              caption={errors[key]}
+              captionColor="brand-error"
+              onChange={(e) => update(key, e.target.value)}
+            />
+          ))}
         </div>
       </fieldset>
 

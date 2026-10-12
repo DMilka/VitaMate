@@ -4,6 +4,7 @@ import { formatAmount, formatNumber, parseNumber } from '../../../lib/format'
 import { energySplit, macrosFor, mealMacros, sumMacros, type Macros } from '../../../lib/nutrition'
 import type { Category, Meal, Product } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
 import { Typography } from '../../../library/Typography/Typography'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
@@ -197,19 +198,19 @@ function AddItemForm({ meals, products, categories, onAdd }: AddItemFormProps) {
             })}
           </select>
         </Field>
-        <Field id="item-amount" label={product?.measure === 'szt' ? 'Sztuki' : 'Gramy'} error={error}>
-          <input
-            {...fieldA11y('item-amount', error)}
-            className={inputClasses}
-            inputMode="decimal"
-            value={amount}
-            placeholder={product?.measure === 'szt' ? '1' : '100'}
-            onChange={(e) => {
-              setAmount(e.target.value)
-              setError(undefined)
-            }}
-          />
-        </Field>
+        <FieldInput
+          id="item-amount"
+          label={product?.measure === 'szt' ? 'Sztuki' : 'Gramy'}
+          type="number"
+          value={amount}
+          placeholder={product?.measure === 'szt' ? '1' : '100'}
+          caption={error}
+          captionColor="brand-error"
+          onChange={(e) => {
+            setAmount(e.target.value)
+            setError(undefined)
+          }}
+        />
       </div>
       {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
       <div className="flex flex-col sm:items-start">
@@ -244,19 +245,18 @@ function AddMealForm({ onAdd }: { onAdd: (name: string, time: string) => void })
   return (
     <form onSubmit={handleSubmit} noValidate className="grid gap-4">
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_9rem]">
-        <Field id="meal-name" label="Nazwa posiłku" error={errors.name}>
-          <input
-            {...fieldA11y('meal-name', errors.name)}
-            className={inputClasses}
-            value={name}
-            placeholder="Podwieczorek"
-            autoComplete="off"
-            onChange={(e) => {
-              setName(e.target.value)
-              setErrors((v) => ({ ...v, name: undefined }))
-            }}
-          />
-        </Field>
+        <FieldInput
+          id="meal-name"
+          label="Nazwa posiłku"
+          value={name}
+          placeholder="Podwieczorek"
+          caption={errors.name}
+          captionColor="brand-error"
+          onChange={(e) => {
+            setName(e.target.value)
+            setErrors((v) => ({ ...v, name: undefined }))
+          }}
+        />
         <Field id="meal-time" label="Godzina" error={errors.time}>
           <input
             {...fieldA11y('meal-time', errors.time)}

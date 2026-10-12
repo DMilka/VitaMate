@@ -3,10 +3,11 @@ import { useState, type FormEvent, type ReactNode } from 'react'
 import { CONTACT, CONTACT_TOPICS, SECTION_IDS, SOCIAL_LINKS } from '../../siteConfig'
 import { Button } from '../../library/Buttons/Button/Button'
 import { RedirectButton } from '../../library/Buttons/RedirectButton/RedirectButton'
+import { FieldInput } from '../../library/Inputs/FieldInput/FieldInput'
 import { Typography } from '../../library/Typography/Typography'
 import { Field } from '../ui/Field'
 import { SocialIcon } from '../ui/SocialIcon'
-import { fieldA11y, inputClasses, selectClasses, textareaClasses } from '../ui/styles'
+import { fieldA11y, selectClasses, textareaClasses } from '../ui/styles'
 
 export function ContactSection() {
   return (
@@ -100,6 +101,15 @@ type ContactValues = { firstName: string; lastName: string; email: string; topic
 type ContactErrors = Partial<Record<keyof ContactValues, string>>
 
 const EMPTY: ContactValues = { firstName: '', lastName: '', email: '', topic: '', message: '' }
+
+// Po id ustawiamy focus na pierwszym polu z błędem (FieldInput nie ma atrybutu name).
+const FIELD_IDS: Record<keyof ContactValues, string> = {
+  firstName: 'contact-first-name',
+  lastName: 'contact-last-name',
+  email: 'contact-email',
+  topic: 'contact-topic',
+  message: 'contact-message',
+}
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function validate(values: ContactValues): ContactErrors {
@@ -127,9 +137,9 @@ function ContactForm() {
     event.preventDefault()
     const nextErrors = validate(values)
     setErrors(nextErrors)
-    const firstInvalid = Object.keys(nextErrors)[0]
+    const firstInvalid = Object.keys(nextErrors)[0] as keyof ContactValues | undefined
     if (firstInvalid) {
-      event.currentTarget.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus()
+      document.getElementById(FIELD_IDS[firstInvalid])?.focus()
       return
     }
     // TODO: wysyłka wiadomości. Aktualnie brak funkcjonalności (potrzebny backend lub usługa e-mail).
@@ -149,45 +159,38 @@ function ContactForm() {
       </Typography>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field id="contact-first-name" label="Imię" error={errors.firstName}>
-          <input
-            {...fieldA11y('contact-first-name', errors.firstName)}
-            name="firstName"
-            autoComplete="given-name"
-            className={inputClasses}
-            value={values.firstName}
-            onChange={(e) => update('firstName', e.target.value)}
-          />
-        </Field>
-        <Field id="contact-last-name" label="Nazwisko" error={errors.lastName}>
-          <input
-            {...fieldA11y('contact-last-name', errors.lastName)}
-            name="lastName"
-            autoComplete="family-name"
-            className={inputClasses}
-            value={values.lastName}
-            onChange={(e) => update('lastName', e.target.value)}
-          />
-        </Field>
+        <FieldInput
+          id={FIELD_IDS.firstName}
+          label="Imię"
+          value={values.firstName}
+          caption={errors.firstName}
+          captionColor="brand-error"
+          onChange={(e) => update('firstName', e.target.value)}
+        />
+        <FieldInput
+          id={FIELD_IDS.lastName}
+          label="Nazwisko"
+          value={values.lastName}
+          caption={errors.lastName}
+          captionColor="brand-error"
+          onChange={(e) => update('lastName', e.target.value)}
+        />
       </div>
 
-      <Field id="contact-email" label="E-mail" error={errors.email}>
-        <input
-          {...fieldA11y('contact-email', errors.email)}
-          name="email"
-          type="email"
-          inputMode="email"
-          autoComplete="email"
-          placeholder="anna.kowalczyk@poczta.pl"
-          className={inputClasses}
-          value={values.email}
-          onChange={(e) => update('email', e.target.value)}
-        />
-      </Field>
+      <FieldInput
+        id={FIELD_IDS.email}
+        label="E-mail"
+        type="email"
+        value={values.email}
+        placeholder="anna.kowalczyk@poczta.pl"
+        caption={errors.email}
+        captionColor="brand-error"
+        onChange={(e) => update('email', e.target.value)}
+      />
 
-      <Field id="contact-topic" label="Temat" error={errors.topic}>
+      <Field id={FIELD_IDS.topic} label="Temat" error={errors.topic}>
         <select
-          {...fieldA11y('contact-topic', errors.topic)}
+          {...fieldA11y(FIELD_IDS.topic, errors.topic)}
           name="topic"
           className={selectClasses}
           value={values.topic}
@@ -204,9 +207,9 @@ function ContactForm() {
         </select>
       </Field>
 
-      <Field id="contact-message" label="Wiadomość" error={errors.message}>
+      <Field id={FIELD_IDS.message} label="Wiadomość" error={errors.message}>
         <textarea
-          {...fieldA11y('contact-message', errors.message)}
+          {...fieldA11y(FIELD_IDS.message, errors.message)}
           name="message"
           rows={5}
           placeholder="Opisz, w czym możemy pomóc."

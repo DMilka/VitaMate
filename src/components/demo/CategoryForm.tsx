@@ -4,9 +4,8 @@ import { ACCENTS, accentNames, accentSoft, accentSolid } from '../../lib/accents
 import { createId } from '../../lib/id'
 import type { Accent, Category } from '../../lib/types'
 import { Button } from '../../library/Buttons/Button/Button'
+import { FieldInput } from '../../library/Inputs/FieldInput/FieldInput'
 import { Badge } from '../ui/Badge'
-import { Field } from '../ui/Field'
-import { fieldA11y, inputClasses } from '../ui/styles'
 
 type CategoryFormProps = {
   idPrefix: string
@@ -35,19 +34,18 @@ export function CategoryForm({ idPrefix, placeholder, existing, onAdd }: Categor
 
   return (
     <form onSubmit={handleSubmit} noValidate className="grid gap-4">
-      <Field id={nameId} label="Nazwa kategorii" error={error}>
-        <input
-          {...fieldA11y(nameId, error)}
-          className={inputClasses}
-          value={name}
-          placeholder={placeholder}
-          autoComplete="off"
-          onChange={(e) => {
-            setName(e.target.value)
-            setError(undefined)
-          }}
-        />
-      </Field>
+      <FieldInput
+        id={nameId}
+        label="Nazwa kategorii"
+        value={name}
+        placeholder={placeholder}
+        caption={error}
+        captionColor="brand-error"
+        onChange={(e) => {
+          setName(e.target.value)
+          setError(undefined)
+        }}
+      />
 
       <fieldset>
         <legend className="text-sm font-medium text-brand-text-primary">Kolor kategorii</legend>

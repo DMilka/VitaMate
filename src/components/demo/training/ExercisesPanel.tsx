@@ -4,11 +4,12 @@ import { accentSoft } from '../../../lib/accents'
 import { createId } from '../../../lib/id'
 import type { Category, Exercise } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
 import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Disclosure } from '../../ui/Disclosure'
 import { Field } from '../../ui/Field'
-import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { selectClasses } from '../../ui/styles'
 import { CategoryForm } from '../CategoryForm'
 
 type ExercisesPanelProps = {
@@ -99,19 +100,18 @@ function ExerciseForm({ exercises, categories, onAdd }: ExerciseFormProps) {
   return (
     <form onSubmit={handleSubmit} noValidate className="grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id="exercise-name" label="Nazwa ćwiczenia" error={error}>
-          <input
-            {...fieldA11y('exercise-name', error)}
-            className={inputClasses}
-            value={name}
-            placeholder="Wykroki z hantlami"
-            autoComplete="off"
-            onChange={(e) => {
-              setName(e.target.value)
-              setError(undefined)
-            }}
-          />
-        </Field>
+        <FieldInput
+          id="exercise-name"
+          label="Nazwa ćwiczenia"
+          value={name}
+          placeholder="Wykroki z hantlami"
+          caption={error}
+          captionColor="brand-error"
+          onChange={(e) => {
+            setName(e.target.value)
+            setError(undefined)
+          }}
+        />
         <Field id="exercise-category" label="Kategoria">
           <select
             id="exercise-category"

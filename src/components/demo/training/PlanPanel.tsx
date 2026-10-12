@@ -4,10 +4,11 @@ import { formatNumber, parseNumber } from '../../../lib/format'
 import { DAYS, totalSets, totalVolume } from '../../../lib/training'
 import type { Category, DayKey, Exercise, PlanEntry } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
+import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
 import { Typography } from '../../../library/Typography/Typography'
 import { Badge } from '../../ui/Badge'
 import { Field } from '../../ui/Field'
-import { fieldA11y, inputClasses, selectClasses } from '../../ui/styles'
+import { selectClasses } from '../../ui/styles'
 
 type PlanPanelProps = {
   plan: PlanEntry[]
@@ -157,19 +158,19 @@ function AddEntryForm({ day, dayLabel, exercises, categories, onAdd }: AddEntryF
   }
 
   const numberField = (id: string, label: string, value: string, set: (v: string) => void, key: keyof EntryErrors, placeholder?: string) => (
-    <Field id={id} label={label} error={errors[key]}>
-      <input
-        {...fieldA11y(id, errors[key])}
-        className={inputClasses}
-        inputMode="decimal"
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => {
-          set(e.target.value)
-          setErrors((v) => ({ ...v, [key]: undefined }))
-        }}
-      />
-    </Field>
+    <FieldInput
+      id={id}
+      label={label}
+      type="number"
+      value={value}
+      placeholder={placeholder}
+      caption={errors[key]}
+      captionColor="brand-error"
+      onChange={(e) => {
+        set(e.target.value)
+        setErrors((v) => ({ ...v, [key]: undefined }))
+      }}
+    />
   )
 
   return (
