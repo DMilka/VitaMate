@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEventHandler, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type MouseEventHandler, type ReactNode } from 'react'
 import type { BrandColor } from '../colors'
 import { FieldFrame, IconSlot } from './FieldParts'
 import {
+  elementColorVars,
   fieldControlClasses,
   fieldPanelClasses,
   fieldSidePadding,
@@ -11,6 +12,7 @@ import {
   slotStart,
   type FieldSize,
 } from './fieldStyles'
+import { useInputDecoration } from './InputDecorator/inputDecoration'
 
 /** Propsy wspólne dla pól z panelem pod spodem (SelectInput, DatePicker, TimePicker). */
 export type PopoverFieldProps = {
@@ -20,12 +22,8 @@ export type PopoverFieldProps = {
   size?: FieldSize
   /** Tekst w polu, gdy nic nie jest wybrane. */
   placeholder?: string
-  /** Ikona wewnątrz pola przed tekstem (np. lucide z size={18}). */
+  /** Ikona wewnątrz pola przed tekstem (np. lucide z size={18}). Kolory ikon ustawia InputDecorator. */
   startIcon?: ReactNode
-  /** Bez koloru ikona ma kolor ramki pola. */
-  startIconColor?: BrandColor
-  /** Bez koloru tła ikona nie ma tła. */
-  startIconColorBackground?: BrandColor
   /** Bez callbacku klik w ikonę otwiera panel. */
   startIconCallback?: MouseEventHandler<HTMLButtonElement>
   /** Tekst pod polem: podpowiedź, błąd, ostrzeżenie itp. */
@@ -44,7 +42,6 @@ type PopoverFieldInnerProps = {
   /** Ikona po prawej, np. strzałka obracana przy otwartym panelu. */
   endIcon: (open: boolean) => ReactNode
   panelClassName: string
-  panelStyle?: CSSProperties
   /** Bez niej panel ma szerokość pola. */
   panelMinWidth?: number
   onToggle?: (open: boolean, panel: HTMLDivElement) => void
@@ -71,7 +68,6 @@ export function PopoverField({
   text,
   endIcon,
   panelClassName,
-  panelStyle,
   panelMinWidth,
   onToggle,
   children,
@@ -82,14 +78,13 @@ export function PopoverField({
     size = 'md',
     placeholder,
     startIcon,
-    startIconColor,
-    startIconColorBackground,
     startIconCallback,
     caption,
     captionColor,
     respectLabelGap,
     respectCaptionGap,
   } = field
+  const decoration = useInputDecoration()
   const { control, slot } = fieldSizes[size]
   const panelId = `${id}-panel`
 
@@ -130,8 +125,8 @@ export function PopoverField({
           <IconSlot
             icon={startIcon}
             className={`${slot} ${slotStart}`}
-            color={startIconColor}
-            colorBackground={startIconColorBackground}
+            color={decoration.startIconColor}
+            colorBackground={decoration.startIconColorBackground}
             callback={startIconCallback}
           />
         )}
@@ -141,14 +136,19 @@ export function PopoverField({
           id={id}
           popoverTarget={panelId}
           style={{
-            paddingLeft: fieldSidePadding(size, startIcon, startIconColorBackground),
-            paddingRight: fieldSidePadding(size, true),
+            paddingLeft: fieldSidePadding(size, startIcon, decoration.startIconColorBackground),
+            paddingRight: fieldSidePadding(size, true, decoration.endIconColorBackground),
           }}
           className={`${fieldControlClasses} ${control} cursor-pointer text-left`}
         >
           <span className={`block truncate ${text ? '' : 'text-brand-text-tertiary'}`}>{text || placeholder}</span>
         </button>
-        <IconSlot icon={endIcon(open)} className={`${slot} ${slotEnd}`} />
+        <IconSlot
+          icon={endIcon(open)}
+          className={`${slot} ${slotEnd}`}
+          color={decoration.endIconColor}
+          colorBackground={decoration.endIconColorBackground}
+        />
         <div
           ref={panelRef}
           id={panelId}
@@ -161,7 +161,7 @@ export function PopoverField({
             setOpen(isOpen)
             onToggle?.(isOpen, event.currentTarget)
           }}
-          style={panelStyle}
+          style={elementColorVars(decoration)}
           className={`${fieldPanelClasses} ${panelClassName}`}
         >
           {children(close)}

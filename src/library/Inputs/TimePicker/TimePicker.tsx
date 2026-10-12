@@ -7,20 +7,15 @@ import {
   type MouseEvent,
   type PointerEvent,
 } from 'react'
-import {
-  elementColorVars,
-  elementHoverClasses,
-  elementSelectedClasses,
-  type ElementColorProps,
-} from '../fieldStyles'
+import { elementHoverClasses, elementSelectedClasses } from '../fieldStyles'
 import { PopoverField, type PopoverFieldProps } from '../PopoverField'
 
-type TimePickerProps = PopoverFieldProps &
-  ElementColorProps & {
-    /** Godzina w formacie GG:MM (zegar 24 h). Pusta pokazuje placeholder, a suwaki startują od 00:00. */
-    value: string
-    onChange: (value: string) => void
-  }
+/** Kolory wybranej godziny i minuty, hover i ikon ustawia InputDecorator. */
+type TimePickerProps = PopoverFieldProps & {
+  /** Godzina w formacie GG:MM (zegar 24 h). Pusta pokazuje placeholder, a suwaki startują od 00:00. */
+  value: string
+  onChange: (value: string) => void
+}
 
 const pad = (n: number) => String(n).padStart(2, '0')
 
@@ -40,7 +35,6 @@ export function TimePicker(props: TimePickerProps) {
       text={value}
       endIcon={() => <Clock size={18} aria-hidden />}
       panelClassName="p-2"
-      panelStyle={elementColorVars(props)}
     >
       {() => (
         <div className="grid grid-cols-[minmax(0,4rem)_auto_minmax(0,4rem)] items-center justify-center gap-0.5 font-brand-font-secondary tabular-nums">

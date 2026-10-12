@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { brandColor, type BrandColor } from '../colors'
+import type { InputDecoration } from './InputDecorator/inputDecoration'
 
 /** Wygląd wspólny dla pól w Inputs (FieldInput, SelectInput, DatePicker, TimePicker). */
 export type FieldSize = 'sm' | 'md' | 'lg'
@@ -36,23 +37,16 @@ export function fieldSidePadding(size: FieldSize, icon: ReactNode, background?: 
 export const fieldPanelClasses =
   'm-0 inset-auto rounded-2xl border border-brand-text-tertiary/30 bg-brand-bg-primary text-brand-text-primary shadow-xl shadow-brand-primary/10 dark:shadow-black/40 opacity-0 [clip-path:inset(0_-40px_100%_-40px)] transition-[opacity,clip-path,display,overlay] transition-discrete duration-150 ease-out open:opacity-100 open:[clip-path:inset(0_-40px_-60px_-40px)] open:duration-200 starting:open:opacity-0 starting:open:[clip-path:inset(0_-40px_100%_-40px)] motion-reduce:transition-none'
 
-/** Kolory elementów w panelu: opcji listy, dni kalendarza, wybranej godziny i minuty. */
-export type ElementColorProps = {
-  /** Kolory elementu na hover. Domyślnie tekst brand-text-primary i tło brand-primary 10%. */
-  colorElementHover?: BrandColor
-  colorBackgroundElementHover?: BrandColor
-  /** Kolory wybranego elementu, bez zmiany na hover. Domyślnie tekst brand-primary i tło brand-primary 15%. */
-  colorElement?: BrandColor
-  colorBackgroundElement?: BrandColor
-}
-
-/** Zmienne CSS z kolorami elementów. Ustawiane na panelu, czytają je klasy element*Classes. */
+/**
+ * Zmienne CSS z kolorami elementów w panelu (opcje listy, dni kalendarza, godzina i minuta) z InputDecorator.
+ * Ustawiane na panelu, czytają je klasy element*Classes.
+ */
 export function elementColorVars({
   colorElementHover,
   colorBackgroundElementHover,
   colorElement,
   colorBackgroundElement,
-}: ElementColorProps): CSSProperties {
+}: InputDecoration): CSSProperties {
   return {
     '--element-hover-fg': brandColor(colorElementHover ?? 'brand-text-primary'),
     '--element-hover-bg': colorBackgroundElementHover

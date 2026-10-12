@@ -10,6 +10,7 @@ import {
   slotStart,
   type FieldSize,
 } from '../fieldStyles'
+import { useInputDecoration } from '../InputDecorator/inputDecoration'
 
 // Pola daty, godziny i listy wyboru to osobne komponenty (DatePicker, TimePicker, SelectInput).
 type FieldInputType = 'text' | 'number' | 'email'
@@ -24,17 +25,11 @@ type FieldInputProps = {
   value: string
   onChange: ChangeEventHandler<HTMLInputElement>
   placeholder?: string
-  /** Ikony wewnątrz pola, przed i za tekstem (np. lucide z size={18}). */
+  /** Ikony wewnątrz pola, przed i za tekstem (np. lucide z size={18}). Kolory ikon ustawia InputDecorator. */
   startIcon?: ReactNode
-  /** Bez koloru ikona ma kolor ramki pola. */
-  startIconColor?: BrandColor
-  /** Bez koloru tła ikona nie ma tła. */
-  startIconColorBackground?: BrandColor
   /** Bez callbacku klik w ikonę ustawia focus w polu. */
   startIconCallback?: MouseEventHandler<HTMLButtonElement>
   endIcon?: ReactNode
-  endIconColor?: BrandColor
-  endIconColorBackground?: BrandColor
   endIconCallback?: MouseEventHandler<HTMLButtonElement>
   /** Tekst pod polem: podpowiedź, błąd, ostrzeżenie itp. */
   caption?: string
@@ -57,18 +52,15 @@ export function FieldInput({
   onChange,
   placeholder,
   startIcon,
-  startIconColor,
-  startIconColorBackground,
   startIconCallback,
   endIcon,
-  endIconColor,
-  endIconColorBackground,
   endIconCallback,
   caption,
   captionColor,
   respectLabelGap,
   respectCaptionGap,
 }: FieldInputProps) {
+  const { startIconColor, startIconColorBackground, endIconColor, endIconColorBackground } = useInputDecoration()
   const { control, slot } = fieldSizes[size]
 
   // type="number" nie przyjmuje przecinka w części przeglądarek i nie zawsze respektuje inputMode,

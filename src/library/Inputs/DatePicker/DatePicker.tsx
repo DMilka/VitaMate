@@ -1,20 +1,15 @@
 import { Calendar } from 'lucide-react'
 import { useState } from 'react'
-import {
-  elementColorVars,
-  elementIdleClasses,
-  elementSelectedClasses,
-  type ElementColorProps,
-} from '../fieldStyles'
+import { elementIdleClasses, elementSelectedClasses } from '../fieldStyles'
 import { PopoverField, type PopoverFieldProps } from '../PopoverField'
 import { SelectInput } from '../SelectInput/SelectInput'
 
-type DatePickerProps = PopoverFieldProps &
-  ElementColorProps & {
-    /** Data w formacie RRRR-MM-DD. Pusta pokazuje placeholder, a kalendarz otwiera się na bieżącym miesiącu. */
-    value: string
-    onChange: (value: string) => void
-  }
+/** Kolory wybranego dnia, hover i ikon ustawia InputDecorator. Listy roku i miesiąca dostają te same kolory. */
+type DatePickerProps = PopoverFieldProps & {
+  /** Data w formacie RRRR-MM-DD. Pusta pokazuje placeholder, a kalendarz otwiera się na bieżącym miesiącu. */
+  value: string
+  onChange: (value: string) => void
+}
 
 const MONTHS = [
   'Styczeń',
@@ -60,9 +55,7 @@ function calendarDays(year: number, month: number): Date[] {
 const dayClasses = 'flex h-10 items-center justify-center rounded-[10px] transition-colors'
 
 export function DatePicker(props: DatePickerProps) {
-  const { id, value, onChange, colorElementHover, colorBackgroundElementHover, colorElement, colorBackgroundElement } =
-    props
-  const colors = { colorElementHover, colorBackgroundElementHover, colorElement, colorBackgroundElement }
+  const { id, value, onChange } = props
 
   const selected = parseDate(value)
   const today = new Date()
@@ -86,7 +79,6 @@ export function DatePicker(props: DatePickerProps) {
       text={text}
       endIcon={() => <Calendar size={18} aria-hidden />}
       panelClassName="p-3"
-      panelStyle={elementColorVars(props)}
       panelMinWidth={PANEL_MIN_WIDTH}
       onToggle={(open) => !open && setView(null)}
     >
@@ -100,7 +92,6 @@ export function DatePicker(props: DatePickerProps) {
               elements={years}
               value={String(year)}
               onChange={(y) => setView({ year: Number(y), month })}
-              {...colors}
             />
             <SelectInput
               id={`${id}-month`}
@@ -108,7 +99,6 @@ export function DatePicker(props: DatePickerProps) {
               elements={MONTH_ELEMENTS}
               value={String(month)}
               onChange={(m) => setView({ year, month: Number(m) })}
-              {...colors}
             />
           </div>
           {/* TODO: dodaj role="grid", aria-selected i nawigację strzałkami po dniach */}

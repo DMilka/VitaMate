@@ -4,14 +4,11 @@ import { formatAmount, formatNumber, parseNumber } from '../../../lib/format'
 import { energySplit, macrosFor, mealMacros, sumMacros, type Macros } from '../../../lib/nutrition'
 import type { Category, Meal, Product } from '../../../lib/types'
 import { Button } from '../../../library/Buttons/Button/Button'
-import { DatePicker } from '../../../library/Inputs/DatePicker/DatePicker'
 import { FieldInput } from '../../../library/Inputs/FieldInput/FieldInput'
 import { SelectInput } from '../../../library/Inputs/SelectInput/SelectInput'
 import { TimePicker } from '../../../library/Inputs/TimePicker/TimePicker'
 import { Typography } from '../../../library/Typography/Typography'
 import { Disclosure } from '../../ui/Disclosure'
-import { Field } from '../../ui/Field'
-import { fieldA11y, inputClasses } from '../../ui/styles'
 
 type MenuPanelProps = {
   meals: Meal[]
@@ -218,8 +215,6 @@ function AddMealForm({ onAdd }: { onAdd: (name: string, time: string) => void })
   const [name, setName] = useState('')
   const [time, setTime] = useState('16:00')
   const [errors, setErrors] = useState<{ name?: string; time?: string }>({})
-  // TYMCZASOWO: stan podglądu DatePicker, do usunięcia
-  const [previewDate, setPreviewDate] = useState('')
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -248,27 +243,17 @@ function AddMealForm({ onAdd }: { onAdd: (name: string, time: string) => void })
             setErrors((v) => ({ ...v, name: undefined }))
           }}
         />
-        <Field id="meal-time" label="Godzina" error={errors.time}>
-          <input
-            {...fieldA11y('meal-time', errors.time)}
-            type="time"
-            className={inputClasses}
-            value={time}
-            onChange={(e) => {
-              setTime(e.target.value)
-              setErrors((v) => ({ ...v, time: undefined }))
-            }}
-          />
-        </Field>
-        {/* TYMCZASOWO: podgląd DatePicker i TimePicker, do usunięcia. TimePicker ma ten sam stan co pole Godzina. */}
-        <DatePicker
-          id="meal-date-preview"
-          label="Data (podgląd)"
-          placeholder="Wybierz datę"
-          value={previewDate}
-          onChange={setPreviewDate}
+        <TimePicker
+          id="meal-time"
+          label="Godzina"
+          value={time}
+          caption={errors.time}
+          captionColor="brand-error"
+          onChange={(value) => {
+            setTime(value)
+            setErrors((v) => ({ ...v, time: undefined }))
+          }}
         />
-        <TimePicker id="meal-time-preview" label="Godzina (podgląd)" value={time} onChange={setTime} />
       </div>
       {/* TODO: dodaj do Button props type ("submit") i className ("w-full sm:w-fit"), wtedy wrapper nie będzie potrzebny */}
       <div className="flex flex-col sm:items-start">

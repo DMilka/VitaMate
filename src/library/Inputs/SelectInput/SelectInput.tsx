@@ -1,19 +1,14 @@
 import { ChevronDown } from 'lucide-react'
-import {
-  elementColorVars,
-  elementIdleClasses,
-  elementSelectedClasses,
-  type ElementColorProps,
-} from '../fieldStyles'
+import { elementIdleClasses, elementSelectedClasses } from '../fieldStyles'
 import { PopoverField, type PopoverFieldProps } from '../PopoverField'
 
 export type SelectElement = { name: string; value: string }
 
-type SelectInputBaseProps = PopoverFieldProps &
-  ElementColorProps & {
-    /** name wyświetla się na liście, value trafia do onChange. */
-    elements: SelectElement[]
-  }
+/** Kolory opcji (hover, zaznaczona) i ikon ustawia InputDecorator. */
+type SelectInputBaseProps = PopoverFieldProps & {
+  /** name wyświetla się na liście, value trafia do onChange. */
+  elements: SelectElement[]
+}
 
 /** Bez multiple wybór zamyka listę. Z multiple klik przełącza opcję, a lista zostaje otwarta. */
 type SelectInputProps = SelectInputBaseProps &
@@ -64,7 +59,6 @@ export function SelectInput(props: SelectInputProps) {
         <ChevronDown size={18} aria-hidden className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       )}
       panelClassName={listClasses}
-      panelStyle={elementColorVars(props)}
       onToggle={scrollToSelected}
     >
       {(close) =>
